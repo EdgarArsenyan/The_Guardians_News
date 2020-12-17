@@ -5,6 +5,8 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.Date;
+
 @Entity
 public class UploadModel {
 
@@ -16,7 +18,15 @@ public class UploadModel {
     private String categoryModel;
     private String imageUrlModel;
     private String textModel;
+    private String date;
 
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
 
     @NonNull
     public long getId() {

@@ -11,8 +11,8 @@ import java.util.List;
 
 public class NewsViewModel extends ViewModel {
 
-    private MutableLiveData<List<Result>> result;
     private Repos repository;
+    private MutableLiveData<List<Result>> result;
 
     public void getFromRepo(){
         if (result != null){

@@ -2,6 +2,7 @@ package com.example.theguardiannews.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -9,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.example.theguardiannews.R;
+import com.google.android.material.appbar.MaterialToolbar;
 
 public class ArticleActivity extends AppCompatActivity {
 
@@ -21,15 +23,27 @@ public class ArticleActivity extends AppCompatActivity {
     private String category;
     private String imageUrl;
     private String date;
+    public MaterialToolbar toolbar;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article);
         init();
         getInfo();
         showInfo();
+        backSpace(toolbar);
+    }
+
+    public void backSpace(MaterialToolbar toolbar) {
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
     }
 
     private void init() {
@@ -38,6 +52,9 @@ public class ArticleActivity extends AppCompatActivity {
         articleTitle = findViewById(R.id.article_title);
         categoryToolbar = findViewById(R.id.category);
         articleDate = findViewById(R.id.article_date);
+        toolbar = findViewById(R.id.title);
+        toolbar.setTitleTextAppearance(this, R.style.RobotoBoldTextAppearance);
+        toolbar.setElevation(0);
     }
 
     public void getInfo() {
@@ -56,7 +73,6 @@ public class ArticleActivity extends AppCompatActivity {
         articleDate.setText(date);
         Glide.with(ArticleActivity.this)
                 .load(imageUrl)
-                .centerCrop()
                 .into(articleImage);
     }
 }

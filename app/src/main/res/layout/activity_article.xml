@@ -13,18 +13,15 @@
         android:layout_height="wrap_content"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-        <com.google.android.material.appbar.CollapsingToolbarLayout
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/title"
+            style="@style/Widget.MaterialComponents.Toolbar.Primary"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:contentScrim="@color/guardian_blue"
-            app:layout_scrollFlags="scroll|snap|exitUntilCollapsed">
-
-            <ImageView
-                android:id="@+id/article_image"
-                android:layout_width="match_parent"
-                android:layout_height="250dp" />
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
-
+            android:layout_height="?attr/actionBarSize"
+            android:background="@android:color/transparent"
+            app:navigationIcon="@drawable/ic_back_24"
+            app:title="Article"
+            />
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
@@ -32,12 +29,21 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="8dp"
             android:layout_weight="1"
             android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/article_image"
+                android:layout_width="match_parent"
+                android:layout_margin="@dimen/margin_8"
+                android:layout_height="wrap_content"
+                 />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -71,6 +77,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_8"
+                android:fontFamily="@font/the_guardian_bold"
                 android:textColor="@android:color/black"
                 android:textSize="18sp" />
 
@@ -79,9 +86,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_8"
-                android:lineSpacingExtra="10dp"
+                android:fontFamily="@font/the_guardian"
                 android:textColor="@color/article_text"
-                android:textSize="16sp" />
+                android:textSize="18sp" />
 
         </LinearLayout>
 

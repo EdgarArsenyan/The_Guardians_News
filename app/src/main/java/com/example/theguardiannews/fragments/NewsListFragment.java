@@ -15,9 +15,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.theguardiannews.R;
+import com.example.theguardiannews.activities.MainActivity;
 import com.example.theguardiannews.adapters.NewsListAdapter;
 import com.example.theguardiannews.models.NewsViewModel;
 import com.example.theguardiannews.models.Result;
+import com.example.theguardiannews.utils.Dialogs;
 import com.example.theguardiannews.utils.NetworkUtil;
 
 import java.util.ArrayList;
@@ -42,7 +44,6 @@ public class NewsListFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news_list, container, false);
 
-//        loadNextDataFromApi(1);
         init(view);
         scrollRecycler();
         initViewModel(1);
@@ -76,7 +77,6 @@ public class NewsListFragment extends Fragment {
                 scrollOutItems = linearLayoutManager.findFirstVisibleItemPosition();
                 if (isScrolling && (currentItems + scrollOutItems == totalItems)) {
                     ++position;
-//                    loadNextDataFromApi(position);
                     initViewModel(position);
                     isScrolling = false;
                 }
@@ -85,44 +85,24 @@ public class NewsListFragment extends Fragment {
     }
 
     private void initViewModel(int offset) {
+        MainActivity activity = new MainActivity();
+
         if (NetworkUtil.isNetworkAvailable(getContext())) {
             Log.e("view Model ", "Call");
             viewModel = ViewModelProviders.of(this).get(NewsViewModel.class);
             viewModel.getFromRepo();
-            viewModel.getNews(offset).observe(this, new Observer<List<Result>>() {
+            viewModel.getNews(offset).observe(getViewLifecycleOwner(), new Observer<List<Result>>() {
                 @Override
                 public void onChanged(List<Result> results) {
                     list.addAll(results);
                     adapter.addNewItem(list);
+                    activity.progress.setVisibility(View.GONE);
                     adapter.notifyDataSetChanged();
                 }
             });
+        }else{
+            activity.progress.setVisibility(View.GONE);
+            Dialogs.openEmailDialog(getContext());
         }
     }
-
-
-//    public void loadNextDataFromApi(int offset) {
-//
-//        try {
-//            Call<User> call = ApiManager.getApiClient().getResponse(offset);
-//            call.enqueue(new Callback<User>() {
-//                @Override
-//                public void onResponse(Call<User> call, retrofit2.Response<User> response) {
-//                    List<Result> results = response.body().getResponse().getResultList();
-//                    for (int i = 0; i < results.size(); i++) {
-//                        list.add(results.get(i));
-//                        ++i;
-//                    }
-//                    adapter.addNewItem(list);
-//                }
-//
-//                @Override
-//                public void onFailure(Call<User> call, Throwable t) {
-//                }
-//            });
-//        } catch (Exception e) {
-//            Toast.makeText(getContext(), e.toString(), Toast.LENGTH_LONG).show();
-//        }
-//    }
-
 }

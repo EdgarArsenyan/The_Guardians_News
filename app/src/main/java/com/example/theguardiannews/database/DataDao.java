@@ -1,5 +1,6 @@
 package com.example.theguardiannews.database;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -16,7 +17,7 @@ public interface DataDao {
     void delete(UploadModel dataModel);
 
     @Query("SELECT * FROM UploadModel")
-    List<UploadModel> getAllData();
+    LiveData<List<UploadModel>> getAllData();
 
 //    @Query("SELECT * FROM DataModel WHERE title LIKE :title")
 //    List<DataModel> getAllInfo();
