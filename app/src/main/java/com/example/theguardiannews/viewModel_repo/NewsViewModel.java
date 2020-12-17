@@ -1,11 +1,12 @@
-package com.example.theguardiannews.models;
+package com.example.theguardiannews.viewModel_repo;
 
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.theguardiannews.Repos;
+import com.example.theguardiannews.models.Result;
+import com.example.theguardiannews.viewModel_repo.Repos;
 
 import java.util.List;
 

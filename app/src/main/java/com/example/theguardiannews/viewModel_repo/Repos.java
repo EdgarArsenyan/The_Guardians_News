@@ -1,4 +1,4 @@
-package com.example.theguardiannews;
+package com.example.theguardiannews.viewModel_repo;
 
 import android.app.Application;
 import android.os.AsyncTask;

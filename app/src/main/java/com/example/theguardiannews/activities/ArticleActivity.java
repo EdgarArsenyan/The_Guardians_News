@@ -23,7 +23,7 @@ public class ArticleActivity extends AppCompatActivity {
     private String category;
     private String imageUrl;
     private String date;
-    public MaterialToolbar toolbar;
+    private MaterialToolbar toolbar;
 
 
     @Override

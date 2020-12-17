@@ -1,6 +1,7 @@
 package com.example.theguardiannews.adapters;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -18,7 +19,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,19 +35,19 @@ import com.example.theguardiannews.R;
 import com.example.theguardiannews.activities.ArticleActivity;
 import com.example.theguardiannews.database.UploadModel;
 import com.example.theguardiannews.models.Result;
-import com.example.theguardiannews.models.UploadViewModel;
+import com.example.theguardiannews.viewModel_repo.UploadViewModel;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsVH> {
 
-    private Context context;
+    private final Context context;
     private List<Result> results;
-    private UploadViewModel viewModel;
     private UploadModel model = new UploadModel();
 
     public NewsListAdapter(Context context, List<Result> results) {
@@ -113,6 +113,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsVH
                     intent.putExtra("category", postCategory.getText().toString());
                     intent.putExtra("text", text);
                     intent.putExtra("imageUrl", imageUrl);
+                    @SuppressLint("SimpleDateFormat")
                     DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
                     String dateText = dateFormat.format(date);
                     intent.putExtra("date", dateText);
@@ -121,19 +122,20 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsVH
             });
 
             saveFavBtn.setOnClickListener(new View.OnClickListener() {
+                @RequiresApi(api = Build.VERSION_CODES.N)
                 @Override
                 public void onClick(View v) {
                     model.setTitleModel(postTitle.getText().toString());
                     model.setCategoryModel(postCategory.getText().toString());
                     model.setTextModel(text);
+                    @SuppressLint("SimpleDateFormat")
                     DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
                     String dateText = dateFormat.format(date);
                     model.setDate(dateText);
-                    Log.e("sdfsdf ", imageUrl);
-                    downloadImage(imageUrl);
-                    saveFavBtn.setBackgroundResource(R.drawable.ic_fav_checked_24);
-//                    viewModel = ViewModelProviders.of((FragmentActivity) context).get(UploadViewModel.class);
-//                    viewModel.insert(model);
+                    if(verifyPermissions()){
+                        saveFavBtn.setBackgroundResource(R.drawable.ic_fav_checked_24);
+                        downloadImage(imageUrl);
+                    }
                 }
             });
         }
@@ -150,16 +152,13 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsVH
     }
 
     void downloadImage(String imageURL) {
-        if (verifyPermissions()) {
-//            String dirPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + "News" + "/";
-//            File dir = new File(dirPath);
+//        if (verifyPermissions()) {
             Glide.with(context)
                     .load(imageURL)
                     .into(new CustomTarget<Drawable>() {
                         @Override
                         public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
                             Bitmap bitmap = ((BitmapDrawable) resource).getBitmap();
-                            Toast.makeText(context, "Saving Image...", Toast.LENGTH_SHORT).show();
                             saveImage(bitmap);
                         }
 
@@ -170,15 +169,13 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsVH
                         @Override
                         public void onLoadFailed(@Nullable Drawable errorDrawable) {
                             super.onLoadFailed(errorDrawable);
-
-                            Toast.makeText(context, "Failed to Download Image! Please try again later.", Toast.LENGTH_SHORT).show();
+                            Log.e("saving  ", errorDrawable.toString());
                         }
                     });
-        }
+//        }
     }
 
     private void saveImage(Bitmap image) {
-        String savedImagePath = null;
         String dirPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + "News" + "/";
         File dir = new File(dirPath);
 
@@ -187,22 +184,18 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsVH
         }
         String fileName = System.currentTimeMillis() + ".jpg";
         File imageFile = new File(dir, fileName);
-        savedImagePath = imageFile.getAbsolutePath();
         try {
             OutputStream fOut = new FileOutputStream(imageFile);
             image.compress(Bitmap.CompressFormat.JPEG, 100, fOut);
-            model.setImageUrlModel(savedImagePath);
-            viewModel = ViewModelProviders.of((FragmentActivity) context).get(UploadViewModel.class);
+            model.setImageUrlModel(imageFile.getAbsolutePath());
+            UploadViewModel viewModel = ViewModelProviders.of((FragmentActivity) context).get(UploadViewModel.class);
             viewModel.insert(model);
             fOut.close();
-            Toast.makeText(context, "Image Saved!", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
-            Log.e("sdfsdf ", e.getMessage());
-
-            Toast.makeText(context, "Error while saving image!", Toast.LENGTH_SHORT).show();
+            Log.e("saving  ", Objects.requireNonNull(e.getMessage()));
             e.printStackTrace();
         }
-}
+    }
 
     public void addNewItem(List<Result> results) {
         this.results = results;

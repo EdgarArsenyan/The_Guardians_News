@@ -18,7 +18,4 @@ public interface DataDao {
 
     @Query("SELECT * FROM UploadModel")
     LiveData<List<UploadModel>> getAllData();
-
-//    @Query("SELECT * FROM DataModel WHERE title LIKE :title")
-//    List<DataModel> getAllInfo();
 }

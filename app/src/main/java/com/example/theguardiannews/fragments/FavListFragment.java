@@ -1,7 +1,6 @@
 package com.example.theguardiannews.fragments;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.theguardiannews.R;
 import com.example.theguardiannews.adapters.FavListAdapter;
-import com.example.theguardiannews.adapters.NewsListAdapter;
 import com.example.theguardiannews.database.UploadModel;
-import com.example.theguardiannews.models.NewsViewModel;
-import com.example.theguardiannews.models.Result;
-import com.example.theguardiannews.models.UploadViewModel;
+import com.example.theguardiannews.viewModel_repo.UploadViewModel;
 
 import java.util.ArrayList;
 import java.util.List;

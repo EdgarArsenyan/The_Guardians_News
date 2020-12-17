@@ -10,7 +10,7 @@
     <color name="article_text">#2B2B2B</color>
     <color name="guardian_blue">#0A0D49</color>
     <color name="guardian_light_blue">#081775</color>
-    <color name="guardian_light_blue_Status">#BF16278A</color>
+    <color name="checked_tab_color">#142DC6</color>
+    <color name="unchecked_tab_color">#A9B5D6</color>
     <color name="item_background">#E6E8F8</color>
-
 </resources>

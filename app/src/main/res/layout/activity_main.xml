@@ -34,7 +34,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/frag_container"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/main_appBarLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/main_appBarLayout" />
 
     <FrameLayout
         android:id="@+id/frag_container"
@@ -43,14 +43,17 @@
         app:layout_constraintBottom_toTopOf="@+id/main_bottom_navigation"
         app:layout_constraintTop_toBottomOf="@+id/main_appBarLayout" />
 
+
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/main_bottom_navigation"
-        style="@style/Widget.MaterialComponents.BottomNavigationView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:menu="@menu/bottom_navigation_menu"
+        app:itemIconTint="@color/tab_selector"
+        app:itemTextColor="@color/tab_selector"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/bottom_navigation_menu" />
+        app:layout_constraintStart_toStartOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

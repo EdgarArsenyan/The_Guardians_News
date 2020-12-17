@@ -10,9 +10,8 @@ import androidx.appcompat.app.AlertDialog;
 
 public final class Dialogs {
 
-    public static void openEmailDialog(Context context) {
+    public static void openEmailDialog(Context context, String message) {
 
-        String message = "Internet is disabled on the device. To watch the news, connect the Internet or watch the saved news";
         final AlertDialog alertDialog = new AlertDialog.Builder(context)
                 .setMessage(message)
                 .setCancelable(false)

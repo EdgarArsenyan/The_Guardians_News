@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.theguardiannews.R;
 import com.example.theguardiannews.activities.MainActivity;
 import com.example.theguardiannews.adapters.NewsListAdapter;
-import com.example.theguardiannews.models.NewsViewModel;
+import com.example.theguardiannews.viewModel_repo.NewsViewModel;
 import com.example.theguardiannews.models.Result;
 import com.example.theguardiannews.utils.Dialogs;
 import com.example.theguardiannews.utils.NetworkUtil;
@@ -28,7 +28,7 @@ import java.util.List;
 
 public class NewsListFragment extends Fragment {
 
-    private List<Result> list = new ArrayList<>();
+    private final List<Result> list = new ArrayList<>();
     private RecyclerView recyclerView;
     private NewsListAdapter adapter;
     private LinearLayoutManager linearLayoutManager;
@@ -37,7 +37,6 @@ public class NewsListFragment extends Fragment {
     private int scrollOutItems;
     private int position = 1;
     private boolean isScrolling = false;
-    private NewsViewModel viewModel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -85,24 +84,22 @@ public class NewsListFragment extends Fragment {
     }
 
     private void initViewModel(int offset) {
-        MainActivity activity = new MainActivity();
-
         if (NetworkUtil.isNetworkAvailable(getContext())) {
             Log.e("view Model ", "Call");
-            viewModel = ViewModelProviders.of(this).get(NewsViewModel.class);
+            NewsViewModel viewModel = ViewModelProviders.of(this).get(NewsViewModel.class);
             viewModel.getFromRepo();
             viewModel.getNews(offset).observe(getViewLifecycleOwner(), new Observer<List<Result>>() {
                 @Override
                 public void onChanged(List<Result> results) {
                     list.addAll(results);
                     adapter.addNewItem(list);
-                    activity.progress.setVisibility(View.GONE);
+                    MainActivity.progress.setVisibility(View.GONE);
                     adapter.notifyDataSetChanged();
                 }
             });
         }else{
-            activity.progress.setVisibility(View.GONE);
-            Dialogs.openEmailDialog(getContext());
+            MainActivity.progress.setVisibility(View.GONE);
+            Dialogs.openEmailDialog(getContext(), getString(R.string.dialog_not_internet));
         }
     }
 }

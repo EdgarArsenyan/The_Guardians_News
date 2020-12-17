@@ -2,10 +2,7 @@ package com.example.theguardiannews.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.icu.text.DateFormat;
-import android.icu.text.SimpleDateFormat;
 import android.os.Build;
-import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,11 +19,9 @@ import com.bumptech.glide.Glide;
 import com.example.theguardiannews.R;
 import com.example.theguardiannews.activities.ArticleActivity;
 import com.example.theguardiannews.database.UploadModel;
-import com.example.theguardiannews.models.Result;
-import com.example.theguardiannews.models.UploadViewModel;
+import com.example.theguardiannews.viewModel_repo.UploadViewModel;
 
 import java.io.File;
-import java.util.Date;
 import java.util.List;
 
 public class FavListAdapter extends RecyclerView.Adapter<FavListAdapter.FavoriteVH> {
@@ -55,9 +50,9 @@ public class FavListAdapter extends RecyclerView.Adapter<FavListAdapter.Favorite
         holder.imageUrl = uploadModels.get(position).getImageUrlModel();
         holder.date = uploadModels.get(position).getDate();
         holder.text = uploadModels.get(position).getTextModel();
-        if(holder.imageUrl != null){
-            File imgFile = new  File(holder.imageUrl);
-            if(imgFile.exists()){
+        if (holder.imageUrl != null) {
+            File imgFile = new File(holder.imageUrl);
+            if (imgFile.exists()) {
                 Glide.with(context)
                         .load(imgFile)
                         .into(holder.postImage);
@@ -79,7 +74,7 @@ public class FavListAdapter extends RecyclerView.Adapter<FavListAdapter.Favorite
         return uploadModels.size();
     }
 
-    public class FavoriteVH extends RecyclerView.ViewHolder{
+    public class FavoriteVH extends RecyclerView.ViewHolder {
 
         TextView postCategory;
         ImageView postImage;
@@ -89,7 +84,6 @@ public class FavListAdapter extends RecyclerView.Adapter<FavListAdapter.Favorite
         String title;
         String category;
         String imageUrl;
-        String id;
         String date;
 
         public FavoriteVH(@NonNull View itemView) {
@@ -98,7 +92,6 @@ public class FavListAdapter extends RecyclerView.Adapter<FavListAdapter.Favorite
             postImage = itemView.findViewById(R.id.fav_item_image);
             postTitle = itemView.findViewById(R.id.fav_item_title);
             saveFavBtn = itemView.findViewById(R.id.fav_item_delete_icon);
-
 
 
             itemView.setOnClickListener(new View.OnClickListener() {
