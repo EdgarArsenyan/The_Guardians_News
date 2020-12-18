@@ -73,12 +73,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Fragment fragment;
-        fragment = new NewsListFragment();
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.frag_container, fragment);
-        ft.commit();
     }
 
     @Override
@@ -104,5 +98,11 @@ public class MainActivity extends AppCompatActivity {
         toolbar.setTitleTextAppearance(this, R.style.RobotoBoldTextAppearance);
         toolbar.setElevation(3);
         progress = findViewById(R.id.progress);
+        Fragment fragment;
+        fragment = new NewsListFragment();
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.frag_container, fragment);
+        ft.commit();
     }
 }

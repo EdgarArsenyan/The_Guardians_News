@@ -20,7 +20,7 @@
             android:layout_height="?attr/actionBarSize"
             android:background="@android:color/transparent"
             app:navigationIcon="@drawable/ic_back_24"
-            app:title="Article"
+            app:title="@string/article_name"
             />
     </com.google.android.material.appbar.AppBarLayout>
 
